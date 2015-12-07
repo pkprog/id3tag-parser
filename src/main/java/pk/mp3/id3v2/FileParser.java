@@ -46,19 +46,22 @@ public class FileParser {
         int totalReadBytes = TAG_HEADER_SIZE_IN_BYTES;
         while (totalReadBytes < result.getSizeInBytes()) {
             byte[] tempFrameHeader = new byte[FRAME_HEADER_SIZE_IN_BYTES];
-            int realReadBytes = fileInputStream.read(tempFrameHeader, 0, FRAME_HEADER_SIZE_IN_BYTES);
+            int realReadBytesFrameHeader = fileInputStream.read(tempFrameHeader, 0, FRAME_HEADER_SIZE_IN_BYTES);
             Id3v2Structure.Frame frame = result.new Frame(Arrays.copyOf(tempFrameHeader, 4));
             frame.setSize(Arrays.copyOfRange(tempFrameHeader, 4, 8));
             frame.setFlags(Arrays.copyOfRange(tempFrameHeader, 8, 10));
-            result.getFrames().add(frame);
 
-            totalReadBytes += realReadBytes;
+            if (frame.getSizeInBytes() > 0) {
+                result.getFrames().add(frame);
 
-            byte[] tempFrameData = new byte[frame.getSizeInBytes()];
-            realReadBytes = fileInputStream.read(tempFrameData, 0, tempFrameData.length);
-            frame.setData(tempFrameData);
+                byte[] tempFrameData = new byte[frame.getSizeInBytes()];
+                int realReadBytesFrameData = fileInputStream.read(tempFrameData, 0, tempFrameData.length);
+                frame.setData(tempFrameData);
 
-            totalReadBytes += realReadBytes;
+                totalReadBytes += realReadBytesFrameData;
+            }
+
+            totalReadBytes += realReadBytesFrameHeader;
         }
 
         if (TAG_HEADER_SIZE_IN_BYTES >= result.getSizeInBytes()) {

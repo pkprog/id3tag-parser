@@ -1,9 +1,13 @@
 package pk.mp3.id3v2;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
  * Created by pskhizhnyakov on 05.11.2015.
  */
 public class SemanticLogger {
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
 
     public static void log(Id3v2Structure structure) {
         if (structure == null) return;
@@ -32,7 +36,7 @@ public class SemanticLogger {
                 if (FrameIdentificator.APIC.equals(new String(frame.getIdentifier()))) {
                     System.out.println("Frame data: " + "Picture found");
                 } else {
-                    System.out.println("Frame data: " + new String(frame.getData()));
+                    System.out.println("Frame data: " + new String(frame.getData(), DEFAULT_CHARSET));
                 }
             }
         }
