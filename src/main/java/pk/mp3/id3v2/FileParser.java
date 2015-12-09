@@ -1,5 +1,11 @@
 package pk.mp3.id3v2;
 
+import pk.mp3.id3v2.exception.IdentifierNotDeclaredException;
+import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.frame.FrameSelector;
+import pk.mp3.id3v2.frame.FrameSelector230;
+import pk.mp3.id3v2.frame.FrameSource;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +21,8 @@ public class FileParser {
     private final int FRAME_HEADER_SIZE_IN_BYTES = 10;
 
     private File file;
+
+    private FrameSelector frameSelector = new FrameSelector230();
 
     public FileParser(File file) throws FileNotFoundException {
         if (file == null) {
@@ -47,20 +55,27 @@ public class FileParser {
         while (totalReadBytes < result.getSizeInBytes()) {
             byte[] tempFrameHeader = new byte[FRAME_HEADER_SIZE_IN_BYTES];
             int realReadBytesFrameHeader = fileInputStream.read(tempFrameHeader, 0, FRAME_HEADER_SIZE_IN_BYTES);
-            Id3v2Structure.Frame frame = result.new Frame(Arrays.copyOf(tempFrameHeader, 4));
-            frame.setSize(Arrays.copyOfRange(tempFrameHeader, 4, 8));
-            frame.setFlags(Arrays.copyOfRange(tempFrameHeader, 8, 10));
 
-            if (frame.getSizeInBytes() > 0) {
-                result.getFrames().add(frame);
+            FrameSource frameSource = new FrameSource();
+            frameSource.setIdentifier(Arrays.copyOf(tempFrameHeader, 4));
+            frameSource.setSize(Arrays.copyOfRange(tempFrameHeader, 4, 8));
+            frameSource.setFlags(Arrays.copyOfRange(tempFrameHeader, 8, 10));
 
-                byte[] tempFrameData = new byte[frame.getSizeInBytes()];
-                int realReadBytesFrameData = fileInputStream.read(tempFrameData, 0, tempFrameData.length);
-                frame.setData(tempFrameData);
+            try {
+                Frame frame = frameSelector.selectByIdentifier(frameSource);
 
-                totalReadBytes += realReadBytesFrameData;
+                if (frame.getSize() > 0) {
+                    byte[] tempFrameData = new byte[frame.getSize()];
+                    int realReadBytesFrameData = fileInputStream.read(tempFrameData, 0, tempFrameData.length);
+                    frameSource.setData(tempFrameData);
+
+                    result.getFrames().add(frame);
+                    totalReadBytes += realReadBytesFrameData;
+                }
+
+            } catch (IdentifierNotDeclaredException e) {
+                System.out.println("Error:" + e.getMessage());
             }
-
             totalReadBytes += realReadBytesFrameHeader;
         }
 

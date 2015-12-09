@@ -1,5 +1,7 @@
 package pk.mp3.id3v2;
 
+import pk.mp3.id3v2.frame.DataParser230;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -36,7 +38,8 @@ public class SemanticLogger {
                 if (FrameIdentificator.APIC.equals(new String(frame.getIdentifier()))) {
                     System.out.println("Frame data: " + "Picture found");
                 } else {
-                    System.out.println("Frame data: " + new String(frame.getData(), DEFAULT_CHARSET));
+                    DataParser230 parser = new DataParser230(frame.getData());
+                    System.out.println("Frame data: " + new String(parser.getPureData(), parser.getCharset()));
                 }
             }
         }
