@@ -1,5 +1,11 @@
-package pk.mp3.id3v2.frame;
+package pk.mp3.id3v2.frame.frameselect;
 
+import pk.mp3.id3v2.frame.CommonFrame;
+import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.frame.FrameApic;
+import pk.mp3.id3v2.frame.FrameSource;
+import pk.mp3.id3v2.frame.FrameTyer;
+import pk.mp3.id3v2.frame.UnknownFrame;
 import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
 
 /**

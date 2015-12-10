@@ -1,5 +1,9 @@
 package pk.mp3.id3v2;
 
+import pk.mp3.id3v2.load.FileLoader;
+import pk.mp3.id3v2.load.FileParser;
+import pk.mp3.id3v2.load.SemanticLogger;
+
 import java.io.File;
 
 /**

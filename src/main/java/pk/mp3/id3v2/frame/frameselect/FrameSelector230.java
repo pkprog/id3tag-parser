@@ -1,6 +1,10 @@
-package pk.mp3.id3v2.frame;
+package pk.mp3.id3v2.frame.frameselect;
 
 import pk.mp3.id3v2.exception.IdentifierNotDeclaredException;
+import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.frame.FrameSource;
+import pk.mp3.id3v2.parser.DataParser;
+import pk.mp3.id3v2.parser.DataParser230;
 
 /**
  * Created by pskhizhnyakov on 09.12.2015.

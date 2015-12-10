@@ -1,6 +1,4 @@
-package pk.mp3.id3v2.frame;
-
-import pk.mp3.id3v2.parser.DifferentEncodingFlag;
+package pk.mp3.id3v2.parser;
 
 import java.nio.charset.Charset;
 

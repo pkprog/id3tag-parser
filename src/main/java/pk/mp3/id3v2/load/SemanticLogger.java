@@ -1,8 +1,9 @@
-package pk.mp3.id3v2;
+package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
 import pk.mp3.id3v2.frame.frametype.FrameTypeUnknown;
+import pk.mp3.id3v2.tag.Id3v2Structure;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

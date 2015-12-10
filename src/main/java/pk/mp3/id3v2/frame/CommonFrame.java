@@ -2,6 +2,8 @@ package pk.mp3.id3v2.frame;
 
 import pk.mp3.id3v2.frame.frametype.FrameType;
 import pk.mp3.id3v2.frame.frametype.FrameTypeCommon;
+import pk.mp3.id3v2.parser.DataParser;
+import pk.mp3.id3v2.parser.DataParser230;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

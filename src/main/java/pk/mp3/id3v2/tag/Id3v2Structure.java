@@ -1,7 +1,7 @@
-package pk.mp3.id3v2;
+package pk.mp3.id3v2.tag;
 
 import pk.mp3.id3v2.frame.Frame;
-import pk.mp3.id3v2.id3header.TagHeaderSource;
+import pk.mp3.id3v2.tag.id3header.TagHeaderSource;
 
 import java.util.ArrayList;
 import java.util.List;

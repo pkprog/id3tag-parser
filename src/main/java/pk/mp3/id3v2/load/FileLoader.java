@@ -1,4 +1,4 @@
-package pk.mp3.id3v2;
+package pk.mp3.id3v2.load;
 
 import java.io.File;
 import java.io.FileNotFoundException;

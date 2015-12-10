@@ -1,4 +1,4 @@
-package pk.mp3.id3v2.id3header;
+package pk.mp3.id3v2.tag.id3header;
 
 /**
  * Created by pskhizhnyakov on 09.12.2015.

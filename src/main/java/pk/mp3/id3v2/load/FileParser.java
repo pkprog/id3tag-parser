@@ -1,11 +1,12 @@
-package pk.mp3.id3v2;
+package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.exception.IdentifierNotDeclaredException;
 import pk.mp3.id3v2.frame.Frame;
-import pk.mp3.id3v2.frame.FrameSelector;
-import pk.mp3.id3v2.frame.FrameSelector230;
+import pk.mp3.id3v2.frame.frameselect.FrameSelector;
+import pk.mp3.id3v2.frame.frameselect.FrameSelector230;
 import pk.mp3.id3v2.frame.FrameSource;
-import pk.mp3.id3v2.id3header.TagHeaderSource;
+import pk.mp3.id3v2.tag.Id3v2Structure;
+import pk.mp3.id3v2.tag.id3header.TagHeaderSource;
 
 import java.io.File;
 import java.io.FileInputStream;
