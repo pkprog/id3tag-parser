@@ -3,7 +3,7 @@ package pk.mp3.id3v2.id3header;
 /**
  * Created by pskhizhnyakov on 09.12.2015.
  */
-public class TagSource {
+public class TagHeaderSource {
     private byte[] indicator;
     private byte[] version;
     private byte[] flags;

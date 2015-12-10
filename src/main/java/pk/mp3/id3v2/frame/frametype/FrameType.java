@@ -6,4 +6,5 @@ package pk.mp3.id3v2.frame.frametype;
 public interface FrameType {
     String getName();
     boolean isText();
+    boolean isPicture();
 }

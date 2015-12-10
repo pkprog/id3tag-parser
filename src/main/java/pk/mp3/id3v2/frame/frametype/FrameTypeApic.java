@@ -15,4 +15,8 @@ public class FrameTypeApic implements FrameType {
         return false;
     }
 
+    @Override
+    public boolean isPicture() {
+        return true;
+    }
 }

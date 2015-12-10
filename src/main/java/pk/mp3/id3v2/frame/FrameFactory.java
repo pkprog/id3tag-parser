@@ -7,4 +7,6 @@ public abstract class FrameFactory {
     public abstract Frame createApic(FrameSource frameSource);
     public abstract Frame createTyer(FrameSource frameSource);
     public abstract Frame createCommon(FrameSource frameSource);
+    public abstract Frame createUnknown(FrameSource frameSource);
+    public abstract Frame createTpe3(FrameSource frameSource);
 }

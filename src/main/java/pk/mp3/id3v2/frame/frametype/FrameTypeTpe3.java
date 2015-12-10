@@ -1,13 +1,12 @@
 package pk.mp3.id3v2.frame.frametype;
 
 /**
- * Created by pskhizhnyakov on 07.12.2015.
+ * Created by pskhizhnyakov on 10.12.2015.
  */
-public class FrameTypeCommon implements FrameType {
-
+public class FrameTypeTpe3 implements FrameType {
     @Override
     public String getName() {
-        return null;
+        return "Conductor/performer refinement";
     }
 
     @Override

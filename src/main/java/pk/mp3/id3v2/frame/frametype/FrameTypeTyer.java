@@ -15,4 +15,8 @@ public class FrameTypeTyer implements FrameType {
         return true;
     }
 
+    @Override
+    public boolean isPicture() {
+        return false;
+    }
 }

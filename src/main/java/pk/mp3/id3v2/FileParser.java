@@ -5,6 +5,7 @@ import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.FrameSelector;
 import pk.mp3.id3v2.frame.FrameSelector230;
 import pk.mp3.id3v2.frame.FrameSource;
+import pk.mp3.id3v2.id3header.TagHeaderSource;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,25 +37,27 @@ public class FileParser {
         FileInputStream fileInputStream = new FileInputStream(file);
 
         //Header 10 bytes
-        result.setId3Indicator(new byte[3]);
-        fileInputStream.read(result.getId3Indicator(), 0, 3);
+        TagHeaderSource tagHeaderSource = new TagHeaderSource();
+        result.setHeaderSource(tagHeaderSource);
 
-        result.setVersion(new byte[2]);
-        fileInputStream.read(result.getVersion(), 0, 2);
+        tagHeaderSource.setIndicator(new byte[3]);
+        fileInputStream.read(tagHeaderSource.getIndicator(), 0, 3);
 
-        byte[] temp = new byte[1];
-        fileInputStream.read(temp, 0, 1);
-        result.setFlagField(temp[0]);
+        tagHeaderSource.setVersion(new byte[2]);
+        fileInputStream.read(tagHeaderSource.getVersion(), 0, 2);
 
-        byte[] temp2 = new byte[4];
-        fileInputStream.read(temp2, 0, 4);
-        result.setSize(temp2);
+        tagHeaderSource.setFlags(new byte[1]);
+        fileInputStream.read(tagHeaderSource.getFlags(), 0, 1);
+
+        tagHeaderSource.setSize(new byte[4]);
+        fileInputStream.read(tagHeaderSource.getSize(), 0, 4);
 
         //Frames
         int totalReadBytes = TAG_HEADER_SIZE_IN_BYTES;
-        while (totalReadBytes < result.getSizeInBytes()) {
+        while (totalReadBytes < result.getSize()) {
             byte[] tempFrameHeader = new byte[FRAME_HEADER_SIZE_IN_BYTES];
             int realReadBytesFrameHeader = fileInputStream.read(tempFrameHeader, 0, FRAME_HEADER_SIZE_IN_BYTES);
+            totalReadBytes += realReadBytesFrameHeader;
 
             FrameSource frameSource = new FrameSource();
             frameSource.setIdentifier(Arrays.copyOf(tempFrameHeader, 4));
@@ -67,23 +70,23 @@ public class FileParser {
                 if (frame.getSize() > 0) {
                     byte[] tempFrameData = new byte[frame.getSize()];
                     int realReadBytesFrameData = fileInputStream.read(tempFrameData, 0, tempFrameData.length);
+                    totalReadBytes += realReadBytesFrameData;
+
                     frameSource.setData(tempFrameData);
 
                     result.getFrames().add(frame);
-                    totalReadBytes += realReadBytesFrameData;
                 }
 
             } catch (IdentifierNotDeclaredException e) {
                 System.out.println("Error:" + e.getMessage());
             }
-            totalReadBytes += realReadBytesFrameHeader;
         }
 
-        if (TAG_HEADER_SIZE_IN_BYTES >= result.getSizeInBytes()) {
+        if (TAG_HEADER_SIZE_IN_BYTES >= result.getSize()) {
             System.out.println("No frames found");
         }
 
-        System.out.println("Read " + totalReadBytes + " bytes");
+        System.out.println("When parsing read: " + totalReadBytes + " bytes");
 
         fileInputStream.close();
         return result;

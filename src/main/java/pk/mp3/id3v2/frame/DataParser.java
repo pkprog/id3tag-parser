@@ -1,12 +1,15 @@
 package pk.mp3.id3v2.frame;
 
+import pk.mp3.id3v2.parser.DifferentEncodingFlag;
+
 import java.nio.charset.Charset;
 
 /**
  * Created by pskhizhnyakov on 09.12.2015.
  */
 public interface DataParser {
-    Charset getCharset();
-    int getDefaultTerminatedString();
-    byte[] getPureData();
+    Charset getCharset(byte[] data);
+    int getDefaultTerminatedString(byte[] data);
+    DifferentEncodingFlag getDifferentEncodingFlag(byte[] data);
+    byte[] getPureData(byte[] data);
 }

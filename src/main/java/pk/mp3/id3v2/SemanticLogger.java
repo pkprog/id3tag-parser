@@ -1,6 +1,8 @@
 package pk.mp3.id3v2;
 
-import pk.mp3.id3v2.frame.DataParser230;
+import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
+import pk.mp3.id3v2.frame.frametype.FrameTypeUnknown;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -15,32 +17,45 @@ public class SemanticLogger {
         if (structure == null) return;
 
         //Id3 indicator
-        System.out.println(new String(structure.getId3Indicator()));
+        System.out.println(new String(structure.getHeaderSource().getIndicator()));
 
         //Version
-        System.out.println("" + structure.getVersion()[0] + "." + structure.getVersion()[1]);
+        System.out.println("" + structure.getHeaderSource().getVersion()[0] + "." + structure.getHeaderSource().getVersion()[1]);
 
         //Flags
-        if (((byte) 0b10000000 & structure.getFlagField()) != 0) {
+        if (((byte) 0b10000000 & structure.getHeaderSource().getFlags()[0]) != 0) {
             System.out.println("Flag:" + "a" + ", unsynchronisation is used");
         }
-        if (((byte) 0b01000000 & structure.getFlagField()) != 0) {
+        if (((byte) 0b01000000 & structure.getHeaderSource().getFlags()[0]) != 0) {
             System.out.println("Flag:" + "b" + ", compression is used");
         }
-        if (((byte) 0b00100000 & structure.getFlagField()) != 0) {
+        if (((byte) 0b00100000 & structure.getHeaderSource().getFlags()[0]) != 0) {
             System.out.println("Flag:" + "c");
         }
 
         for (int i = 0; i < structure.getFrames().size(); i++) {
-            Id3v2Structure.Frame frame = structure.getFrames().get(i);
-            System.out.println(i + "." + new String(frame.getIdentifier()) + ", frame data size: " + frame.getSizeInBytes());
-            if (frame.getSizeInBytes() > 0) {
-                if (FrameIdentificator.APIC.equals(new String(frame.getIdentifier()))) {
-                    System.out.println("Frame data: " + "Picture found");
-                } else {
-                    DataParser230 parser = new DataParser230(frame.getData());
-                    System.out.println("Frame data: " + new String(parser.getPureData(), parser.getCharset()));
+            Frame frame = structure.getFrames().get(i);
+            if (frame.getType() instanceof FrameTypeUnknown) {
+            } else {
+                System.out.println(i + "." + new String(frame.getIdentifier()) + ", frame data size: " + frame.getSize());
+                if (frame.getSize() > 0) {
+                    if (frame.getType().isPicture()) {
+                        System.out.println("Frame data: " + "Picture found");
+                    } else {
+                        System.out.println("Frame data: " + new String(frame.getPureData(), frame.getCharset()));
+                    }
                 }
+            }
+
+            if (frame.getIdentifier().equals("COMM")) {
+                Charset ch = frame.getCharset();
+                System.out.println("*COMM found");
+            }
+
+            if (frame.getType() instanceof FrameTypeTpe3) {
+                Charset ch = frame.getCharset();
+                String s = new String(frame.getPureData(), frame.getCharset());
+                System.out.println("*TPE3 found");
             }
         }
 
@@ -55,8 +70,8 @@ public class SemanticLogger {
 */
 
 //        System.out.println("Size:" + structure.getSize());
-        int iSize = (int)structure.getSize()[0] << 21 | (int)structure.getSize()[1] << 14 | (int)structure.getSize()[2] << 7 | (int)structure.getSize()[3];
-        System.out.println("Size:" + iSize);
+//        int iSize = (int)structure.getSize()[0] << 21 | (int)structure.getSize()[1] << 14 | (int)structure.getSize()[2] << 7 | (int)structure.getSize()[3];
+        System.out.println("Size:" + structure.getSize());
     }
 
 }

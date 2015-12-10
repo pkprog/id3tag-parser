@@ -17,17 +17,17 @@ public class CommonFrame implements Frame {
 
     private String identifier;
 
-    private DataParser dataParser;
+    private DataParser dataParser = new DataParser230();
 
     public CommonFrame(FrameSource frameSource) {
-        this(null, frameSource);
+        this(frameSource, new FrameTypeCommon());
     }
 
-    public CommonFrame(String identifier, FrameSource frameSource) {
-        this(identifier, new FrameTypeCommon(), frameSource);
+    public CommonFrame(FrameSource frameSource, FrameType frameType) {
+        this(frameSource, frameType, null);
     }
 
-    public CommonFrame(String identifier, FrameType frameType, FrameSource frameSource) {
+    public CommonFrame(FrameSource frameSource, FrameType frameType, String identifier) {
         if (frameSource == null)
             throw new NullPointerException("FrameSource can not be NULL");
         if (frameType == null)
@@ -40,8 +40,6 @@ public class CommonFrame implements Frame {
         }
         this.frameType = frameType;
         this.frameSource = frameSource;
-
-        dataParser = new DataParser230(frameSource.getData());
     }
 
     @Override
@@ -61,7 +59,7 @@ public class CommonFrame implements Frame {
 
     @Override
     public byte[] getPureData() {
-        return dataParser.getPureData();
+        return dataParser.getPureData(frameSource.getData());
     }
 
     @Override
@@ -74,4 +72,8 @@ public class CommonFrame implements Frame {
         return iSize;
     }
 
+    @Override
+    public Charset getCharset() {
+        return dataParser.getCharset(frameSource.getData());
+    }
 }
