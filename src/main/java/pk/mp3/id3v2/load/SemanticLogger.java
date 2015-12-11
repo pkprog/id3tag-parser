@@ -1,6 +1,8 @@
 package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.frame.FrameComm;
+import pk.mp3.id3v2.frame.frametype.FrameTypeComm;
 import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
 import pk.mp3.id3v2.frame.frametype.FrameTypeUnknown;
 import pk.mp3.id3v2.tag.Id3v2Structure;
@@ -42,13 +44,16 @@ public class SemanticLogger {
                 if (frame.getSize() > 0) {
                     if (frame.getType().isPicture()) {
                         System.out.println("Frame data: " + "Picture found");
+                    } else if (frame instanceof FrameComm) {
+                        FrameComm frameComm = (FrameComm) frame;
+                        System.out.println("Frame data: language:" + new String(frameComm.getLanguage(), DEFAULT_CHARSET) + ", text:" + new String(frameComm.getText(), frameComm.getTextCharset()));
                     } else {
                         System.out.println("Frame data: " + new String(frame.getPureData(), frame.getCharset()));
                     }
                 }
             }
 
-            if (frame.getIdentifier().equals("COMM")) {
+            if (frame.getType() instanceof FrameTypeComm) {
                 Charset ch = frame.getCharset();
                 System.out.println("*COMM found");
             }

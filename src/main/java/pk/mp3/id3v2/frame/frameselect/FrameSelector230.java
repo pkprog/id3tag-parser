@@ -32,6 +32,7 @@ public class FrameSelector230 implements FrameSelector {
         if (id.equals("APIC")) return frameFactory.createApic(frameSource);
         else if (id.equals("TYER")) return frameFactory.createTyer(frameSource);
         else if (id.equals("TPE3")) return frameFactory.createTpe3(frameSource);
+        else if (id.equals("COMM")) return frameFactory.createComm(frameSource);
         else return frameFactory.createCommon(frameSource);
     }
 

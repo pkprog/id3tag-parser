@@ -1,5 +1,6 @@
 package pk.mp3.id3v2.frame;
 
+import pk.mp3.id3v2.exception.UseOfMethodNotApplicable;
 import pk.mp3.id3v2.frame.frametype.FrameType;
 
 import java.nio.charset.Charset;
@@ -11,7 +12,7 @@ public interface Frame {
     FrameType getType();
     String getIdentifier();
     int getSize();
-    byte[] getPureData();
+    byte[] getPureData() throws UseOfMethodNotApplicable;
     byte[] getSourceData();
-    Charset getCharset();
+    Charset getCharset() throws UseOfMethodNotApplicable;
 }

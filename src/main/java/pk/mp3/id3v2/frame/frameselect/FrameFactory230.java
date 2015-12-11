@@ -3,6 +3,7 @@ package pk.mp3.id3v2.frame.frameselect;
 import pk.mp3.id3v2.frame.CommonFrame;
 import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.FrameApic;
+import pk.mp3.id3v2.frame.FrameComm;
 import pk.mp3.id3v2.frame.FrameSource;
 import pk.mp3.id3v2.frame.FrameTyer;
 import pk.mp3.id3v2.frame.UnknownFrame;
@@ -39,5 +40,10 @@ public class FrameFactory230 extends FrameFactory {
     @Override
     public Frame createTpe3(FrameSource frameSource) {
         return new CommonFrame(frameSource, new FrameTypeTpe3());
+    }
+
+    @Override
+    public Frame createComm(FrameSource frameSource) {
+        return new FrameComm(frameSource);
     }
 }

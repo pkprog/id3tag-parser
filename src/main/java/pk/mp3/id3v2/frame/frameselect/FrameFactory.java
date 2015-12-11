@@ -12,4 +12,5 @@ public abstract class FrameFactory {
     public abstract Frame createCommon(FrameSource frameSource);
     public abstract Frame createUnknown(FrameSource frameSource);
     public abstract Frame createTpe3(FrameSource frameSource);
+    public abstract Frame createComm(FrameSource frameSource);
 }
