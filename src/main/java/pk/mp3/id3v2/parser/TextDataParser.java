@@ -11,6 +11,6 @@ public interface TextDataParser {
     byte[] getPureData(byte[] data);
     CharBuffer getCharacters(byte[] data);
 
-    int getDefaultTerminatedString(byte[] data);
+    TerminatingString getTerminatingString(byte[] data);
     DifferentEncodingFlag getDifferentEncodingFlag(byte[] data);
 }

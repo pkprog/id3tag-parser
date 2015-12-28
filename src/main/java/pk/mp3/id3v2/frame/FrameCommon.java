@@ -49,15 +49,10 @@ public class FrameCommon implements Frame {
         return identifier;
     }
 
-    @Override
-    public int getSize() {
-        return getSizeInBytes();
-    }
-
-    @Override
-    public byte[] getPureData() {
-        return textDataParser.getPureData(frameSource.getData());
-    }
+//    @Override
+//    public int getSize() {
+//        return getSizeInBytes();
+//    }
 
     @Override
     public byte[] getSourceData() {
@@ -65,12 +60,19 @@ public class FrameCommon implements Frame {
     }
 
     private int getSizeInBytes() {
-        int iSize = (int)(frameSource.getSize()[0] << 24 & 0xffffffff) | (int)(frameSource.getSize()[1] << 16 & 0xffffff) | (int)(frameSource.getSize()[2] << 8 & 0xffff) | (int)(frameSource.getSize()[3] & 0xff);
-        return iSize;
+        return FrameUtils.getFrameSize(frameSource.getSize());
+//        int iSize = (int)(frameSource.getSize()[0] << 24 & 0xffffffff) | (int)(frameSource.getSize()[1] << 16 & 0xffffff) | (int)(frameSource.getSize()[2] << 8 & 0xffff) | (int)(frameSource.getSize()[3] & 0xff);
+//        return iSize;
     }
 
 //    @Override
 //    public Charset getCharset() {
 //        return dataParser.getCharset(frameSource.getData());
 //    }
+
+
+    @Override
+    public FrameSource getFrameSource() {
+        return frameSource;
+    }
 }

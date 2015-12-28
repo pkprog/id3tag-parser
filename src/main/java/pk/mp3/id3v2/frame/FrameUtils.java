@@ -16,5 +16,9 @@ public class FrameUtils {
         return stringBuilder.toString();
     }
 
+    public static int getFrameSize(byte[] frameSizeBytes) {
+        int iSize = (int)(frameSizeBytes[0] << 24 & 0xffffffff) | (int)(frameSizeBytes[1] << 16 & 0xffffff) | (int)(frameSizeBytes[2] << 8 & 0xffff) | (int)(frameSizeBytes[3] & 0xff);
+        return iSize;
+    }
 
 }

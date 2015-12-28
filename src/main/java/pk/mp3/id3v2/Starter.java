@@ -16,17 +16,17 @@ public class Starter {
 //    private final static String TEST_FILE_NAME = "C:\\user_temp\\id3v2\\Grappler-Baki---2nd-season-all-alone(muzofon.com).mp3";
 
     public static void main(String[] parameters) {
+        System.out.println("*Start");
         FileLoader fileLoader = new FileLoader(TEST_FILE_NAME);
 
         try {
             File file = fileLoader.load();
             FileParser parser = new FileParser(file);
             SemanticLogger.log(parser.parse());
-
-            System.out.println("Ok");
         } catch(Exception e) {
             System.out.println(e.getCause().getMessage());
         }
+        System.out.println("*Finish");
     }
 
 }

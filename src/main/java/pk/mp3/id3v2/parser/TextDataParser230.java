@@ -14,8 +14,8 @@ public class TextDataParser230 implements TextDataParser {
     private static final Charset UNIDODE_BIG_ENDIAN = StandardCharsets.UTF_16BE;
     private static final Charset UNIDODE_LITTLE_ENDIAN = StandardCharsets.UTF_16LE;
 
-    private static final int DEFAULT_TERMINATED_STRING = 0x00;
-    private static final int UNICODE_TERMINATED_STRING = 0x0000;
+//    private static final int DEFAULT_TERMINATED_STRING = 0x00;
+//    private static final int UNICODE_TERMINATED_STRING = 0x0000;
 
     private static final int DEFAULT_NEW_LINE = 0x0a;
 
@@ -36,16 +36,16 @@ public class TextDataParser230 implements TextDataParser {
                     return UNIDODE_LITTLE_ENDIAN;
                 }
             } else {
-                if ((byte1 & 0xff) >= 0x20 && (byte1 & 0xff) <= 0xff || (byte1 & 0xff) == DEFAULT_NEW_LINE || (byte1 & 0xff) == 0x00) {
-                    return DEFAULT_CHARSET;
-                }
-
-                if ((byte1 & 0xff) == 1 && (byte2 & 0xfe) == 1) { //UNICODE big endian
+                if ((byte1 & 0xff) == 0xff && (byte2 & 0xff) == 0xfe) { //UNICODE big endian
                     return UNIDODE_BIG_ENDIAN;
                 }
 
-                if ((byte1 & 0xfe) == 1 && (byte2 & 0xff) == 1) { //UNICODE little endian
+                if ((byte1 & 0xff) == 0xfe && (byte2 & 0xff) == 0xff) { //UNICODE little endian
                     return UNIDODE_LITTLE_ENDIAN;
+                }
+
+                if ((byte1 & 0xff) >= 0x20 && (byte1 & 0xff) <= 0xff || (byte1 & 0xff) == DEFAULT_NEW_LINE || (byte1 & 0xff) == 0x00) {
+                    return DEFAULT_CHARSET;
                 }
             }
         }
@@ -64,24 +64,24 @@ public class TextDataParser230 implements TextDataParser {
         return DifferentEncodingFlag.NONE;
     }
 
-    public int getDefaultTerminatedString(byte[] data) {
+    public TerminatingString getTerminatingString(byte[] data) {
         if (data != null && data.length >= 2) {
             byte byte1 = data[0], byte2 = data[1];
 
-            if ((byte1 & 0xff) >= 0x20 && (byte1 & 0xff) <= 0xff || (byte1 & 0xff) == DEFAULT_NEW_LINE || (byte1 & 0xff) == 0x00) {
-                return DEFAULT_TERMINATED_STRING;
-            }
-
             if ((byte1 & 0xff) == 0xff && (byte2 & 0xff) == 0xfe) { //UNICODE big endian
-                return UNICODE_TERMINATED_STRING;
+                return TerminatingString.UNICODE;
             }
 
             if ((byte1 & 0xff) == 0xfe && (byte2 & 0xff) == 0xff) { //UNICODE little endian
-                return UNICODE_TERMINATED_STRING;
+                return TerminatingString.UNICODE;
+            }
+
+            if ((byte1 & 0xff) >= 0x20 && (byte1 & 0xff) <= 0xff || (byte1 & 0xff) == DEFAULT_NEW_LINE || (byte1 & 0xff) == 0x00) {
+                return TerminatingString.DEFAULT;
             }
         }
 
-        return DEFAULT_TERMINATED_STRING;
+        return TerminatingString.DEFAULT;
     }
 
     public byte[] getPureData(byte[] data) {

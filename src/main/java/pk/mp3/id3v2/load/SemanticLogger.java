@@ -2,6 +2,7 @@ package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.CommentsFrame;
+import pk.mp3.id3v2.frame.FrameUtils;
 import pk.mp3.id3v2.frame.TextFrame;
 import pk.mp3.id3v2.frame.frametype.FrameTypeComm;
 import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
@@ -41,8 +42,8 @@ public class SemanticLogger {
             Frame frame = structure.getFrames().get(i);
             if (frame.getType() instanceof FrameTypeUnknown) {
             } else {
-                System.out.println(i + "." + new String(frame.getIdentifier()) + ", frame data size: " + frame.getSize() + ", \"" + frame.getType().getDescription() + "\"");
-                if (frame.getSize() > 0) {
+                System.out.println(i + "." + new String(frame.getIdentifier()) + ", frame data size: " + FrameUtils.getFrameSize(frame.getFrameSource().getSize()) + ", \"" + frame.getType().getDescription() + "\"");
+                if (FrameUtils.getFrameSize(frame.getFrameSource().getSize()) > 0) {
                     if (frame.getType().isPicture()) {
                         System.out.println("Frame data:" + frame);
                     } else if (frame instanceof CommentsFrame) {
@@ -52,21 +53,19 @@ public class SemanticLogger {
                         TextFrame f = (TextFrame) frame;
                         System.out.println("Frame text: " + new String(f.getText()));
                     } else {
-                        System.out.println("Frame data(binary): " + new String(frame.getPureData()));
+                        System.out.println("Frame data(binary): " + new String(frame.getSourceData()));
                     }
                 }
             }
 
             if (frame.getType() instanceof FrameTypeComm) {
 //                Charset ch = frame.getCharset();
-                System.out.println("*COMM found");
+                System.out.println("@COMM found");
             }
 
             if (frame.getType() instanceof FrameTypeTpe3) {
 //                Charset ch = frame.getCharset();
-                TextFrame f = (TextFrame) frame;
-                String s = new String(f.getPureData(), f.getCharset());
-                System.out.println("*TPE3 found");
+                System.out.println("@TPE3 found");
             }
         }
 
@@ -82,7 +81,7 @@ public class SemanticLogger {
 
 //        System.out.println("Size:" + structure.getSize());
 //        int iSize = (int)structure.getSize()[0] << 21 | (int)structure.getSize()[1] << 14 | (int)structure.getSize()[2] << 7 | (int)structure.getSize()[3];
-        System.out.println("Size:" + structure.getSize());
+        System.out.println("*****Size:" + structure.getSize());
     }
 
 }

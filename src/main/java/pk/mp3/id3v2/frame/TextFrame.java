@@ -8,4 +8,5 @@ import java.nio.charset.Charset;
 public interface TextFrame extends Frame {
     StringBuilder getText();
     Charset getCharset();
+//    byte[] getPureData() throws UseOfMethodNotApplicable;
 }

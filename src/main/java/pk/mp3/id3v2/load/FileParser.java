@@ -2,6 +2,7 @@ package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.exception.IdentifierNotDeclaredException;
 import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.frame.FrameUtils;
 import pk.mp3.id3v2.frame.frameselect.FrameSelector;
 import pk.mp3.id3v2.frame.frameselect.FrameSelector230;
 import pk.mp3.id3v2.frame.FrameSource;
@@ -66,15 +67,14 @@ public class FileParser {
             frameSource.setFlags(Arrays.copyOfRange(tempFrameHeader, 8, 10));
 
             try {
-                Frame frame = frameSelector.selectByIdentifier(frameSource);
-
-                if (frame.getSize() > 0) {
-                    byte[] tempFrameData = new byte[frame.getSize()];
+                if (FrameUtils.getFrameSize(frameSource.getSize()) > 0) {
+                    byte[] tempFrameData = new byte[FrameUtils.getFrameSize(frameSource.getSize())];
                     int realReadBytesFrameData = fileInputStream.read(tempFrameData, 0, tempFrameData.length);
                     totalReadBytes += realReadBytesFrameData;
 
                     frameSource.setData(tempFrameData);
 
+                    Frame frame = frameSelector.selectByIdentifier(frameSource);
                     result.getFrames().add(frame);
                 }
 
