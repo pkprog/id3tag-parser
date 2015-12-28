@@ -2,9 +2,8 @@ package pk.mp3.id3v2.frame;
 
 import pk.mp3.id3v2.exception.UseOfMethodNotApplicable;
 import pk.mp3.id3v2.frame.frametype.FrameType;
-import pk.mp3.id3v2.frame.frametype.FrameTypeComm;
-import pk.mp3.id3v2.parser.DataParser;
-import pk.mp3.id3v2.parser.DataParser230;
+import pk.mp3.id3v2.parser.TextDataParser;
+import pk.mp3.id3v2.parser.TextDataParser230;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -13,7 +12,7 @@ import java.util.Arrays;
 /**
  * Created by pskhizhnyakov on 09.12.2015.
  */
-public class FrameComm implements Frame {
+public class FrameComm implements CommentsFrame {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
 
     protected FrameSource frameSource;
@@ -21,11 +20,11 @@ public class FrameComm implements Frame {
 
     private String identifier;
 
-    private DataParser dataParser = new DataParser230();
+    private TextDataParser textDataParser = new TextDataParser230();
 
-    public FrameComm(FrameSource frameSource) {
+    public FrameComm(FrameType frameType, FrameSource frameSource) {
         this.frameSource = frameSource;
-        this.frameType = new FrameTypeComm();
+        this.frameType = frameType;
         this.identifier = new String(frameSource.getIdentifier(), DEFAULT_CHARSET);
     }
 
@@ -59,26 +58,43 @@ public class FrameComm implements Frame {
         return frameSource.getData();
     }
 
-    @Override
-    public Charset getCharset() throws UseOfMethodNotApplicable {
-        throw new UseOfMethodNotApplicable("This frame has many subframes");
-    }
+//    @Override
+//    public Charset getCharset() throws UseOfMethodNotApplicable {
+//        throw new UseOfMethodNotApplicable("This frame has many subframes");
+//    }
 
     public Charset getTextCharset() {
         return StandardCharsets.UTF_16BE;
     }
 
-    public byte[] getLanguage() {
-        return Arrays.copyOfRange(frameSource.getData(), 1, 4);
+//    public StringBuilder getText() {
+//        StringBuilder sbTemp = new StringBuilder();
+//        sbTemp.append(dataParser.getPureData(Arrays.copyOfRange(frameSource.getData(), 4, frameSource.getData().length)));
+//        return sbTemp;
+//    }
+
+    @Override
+    public String getLanguage() {
+        return new String(Arrays.copyOfRange(frameSource.getData(), 1, 4));
     }
 
-    public byte[] getShortDescription() {
+    @Override
+    public StringBuilder getShortContentDescrip() {
         return null;
     }
 
-    public byte[] getText() {
-        return  dataParser.getPureData(Arrays.copyOfRange(frameSource.getData(), 4, frameSource.getData().length));
+    @Override
+    public StringBuilder getActualText() {
+        return null;
     }
 
+    @Override
+    public Charset getShortContentDescripCharset() {
+        return null;
+    }
 
+    @Override
+    public Charset getActualTextCharset() {
+        return null;
+    }
 }

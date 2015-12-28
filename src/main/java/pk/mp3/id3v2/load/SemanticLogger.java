@@ -1,7 +1,8 @@
 package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.frame.Frame;
-import pk.mp3.id3v2.frame.FrameComm;
+import pk.mp3.id3v2.frame.CommentsFrame;
+import pk.mp3.id3v2.frame.TextFrame;
 import pk.mp3.id3v2.frame.frametype.FrameTypeComm;
 import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
 import pk.mp3.id3v2.frame.frametype.FrameTypeUnknown;
@@ -40,27 +41,31 @@ public class SemanticLogger {
             Frame frame = structure.getFrames().get(i);
             if (frame.getType() instanceof FrameTypeUnknown) {
             } else {
-                System.out.println(i + "." + new String(frame.getIdentifier()) + ", frame data size: " + frame.getSize());
+                System.out.println(i + "." + new String(frame.getIdentifier()) + ", frame data size: " + frame.getSize() + ", \"" + frame.getType().getDescription() + "\"");
                 if (frame.getSize() > 0) {
                     if (frame.getType().isPicture()) {
-                        System.out.println("Frame data: " + "Picture found");
-                    } else if (frame instanceof FrameComm) {
-                        FrameComm frameComm = (FrameComm) frame;
-                        System.out.println("Frame data: language:" + new String(frameComm.getLanguage(), DEFAULT_CHARSET) + ", text:" + new String(frameComm.getText(), frameComm.getTextCharset()));
+                        System.out.println("Frame data:" + frame);
+                    } else if (frame instanceof CommentsFrame) {
+                        CommentsFrame frameComments = (CommentsFrame) frame;
+                        System.out.println("Frame data: language:" + frameComments.getLanguage() + ", descr:" + String.valueOf(frameComments.getShortContentDescrip()) + ", text:" + String.valueOf(frameComments.getActualText()));
+                    } else if (frame.getType().isText()) {
+                        TextFrame f = (TextFrame) frame;
+                        System.out.println("Frame text: " + new String(f.getText()));
                     } else {
-                        System.out.println("Frame data: " + new String(frame.getPureData(), frame.getCharset()));
+                        System.out.println("Frame data(binary): " + new String(frame.getPureData()));
                     }
                 }
             }
 
             if (frame.getType() instanceof FrameTypeComm) {
-                Charset ch = frame.getCharset();
+//                Charset ch = frame.getCharset();
                 System.out.println("*COMM found");
             }
 
             if (frame.getType() instanceof FrameTypeTpe3) {
-                Charset ch = frame.getCharset();
-                String s = new String(frame.getPureData(), frame.getCharset());
+//                Charset ch = frame.getCharset();
+                TextFrame f = (TextFrame) frame;
+                String s = new String(f.getPureData(), f.getCharset());
                 System.out.println("*TPE3 found");
             }
         }

@@ -7,11 +7,11 @@ import pk.mp3.id3v2.version.VersionedUtilsFactory;
 import java.nio.charset.Charset;
 
 /**
- * Created by pskhizhnyakov on 09.12.2015.
+ * Created by pskhizhnyakov on 23.12.2015.
  */
-public class FrameTyer extends FrameCommon implements TextFrame {
+public class FrameTpe3 extends FrameCommon implements TextFrame {
 
-    public FrameTyer(FrameType frameType, FrameSource frameSource) {
+    public FrameTpe3(FrameType frameType, FrameSource frameSource) {
         super(frameType, frameSource);
     }
 
@@ -29,4 +29,5 @@ public class FrameTyer extends FrameCommon implements TextFrame {
     public Charset getCharset() {
         return VersionedUtilsFactory.getVersionUtils(Version.V230).getDataParser().getCharset(getSourceData());
     }
+
 }

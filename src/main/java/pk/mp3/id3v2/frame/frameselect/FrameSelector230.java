@@ -3,16 +3,22 @@ package pk.mp3.id3v2.frame.frameselect;
 import pk.mp3.id3v2.exception.IdentifierNotDeclaredException;
 import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.FrameSource;
-import pk.mp3.id3v2.parser.DataParser;
-import pk.mp3.id3v2.parser.DataParser230;
+import pk.mp3.id3v2.frame.FrameUtils;
+import pk.mp3.id3v2.frame.frametype.FrameType;
+import pk.mp3.id3v2.frame.frametype.FrameTypeCommon;
+import pk.mp3.id3v2.frame.frametype.FrameTypeUnknown;
+import pk.mp3.id3v2.parser.TextDataParser;
+import pk.mp3.id3v2.parser.TextDataParser230;
 
 /**
  * Created by pskhizhnyakov on 09.12.2015.
  */
 public class FrameSelector230 implements FrameSelector {
+    private FrameTypeUnknown frameTypeUnknown = new FrameTypeUnknown();
+    private FrameTypeCommon frameTypeCommon = new FrameTypeCommon();
 
-    private FrameFactory frameFactory = new FrameFactory230();
-    private DataParser parser = new DataParser230();
+    private TextDataParser parser = new TextDataParser230();
+    private AllFrameTypesList allFrameTypesList = new AllFrameTypesList();
 
     public Frame selectByIdentifier(FrameSource frameSource) throws IdentifierNotDeclaredException {
         if (frameSource == null) return null;
@@ -20,24 +26,30 @@ public class FrameSelector230 implements FrameSelector {
             throw new IdentifierNotDeclaredException("Indetifier not declared");
 
         String id = new String(frameSource.getIdentifier(), parser.getCharset(frameSource.getData()));
-        if (id == null || id.trim().length() == 0) {
-            createUnknown(frameSource);
+        if (FrameUtils.normId(id).equals("")) {
+            return createUnknown(frameSource);
 //            throw new IdentifierNotDeclaredException("Indetifier not declared");
+        } else {
+            return create(id, frameSource);
         }
-
-        return create(id, frameSource);
     }
 
     private Frame create(String id, FrameSource frameSource) {
-        if (id.equals("APIC")) return frameFactory.createApic(frameSource);
-        else if (id.equals("TYER")) return frameFactory.createTyer(frameSource);
-        else if (id.equals("TPE3")) return frameFactory.createTpe3(frameSource);
-        else if (id.equals("COMM")) return frameFactory.createComm(frameSource);
-        else return frameFactory.createCommon(frameSource);
+        for (FrameType frameType: allFrameTypesList.getFrames()) {
+            if (frameType.isMyId(id)) {
+                return frameType.createFrame(frameSource);
+            }
+        }
+
+        return createCommon(frameSource);
     }
 
     private Frame createUnknown(FrameSource frameSource) {
-        return frameFactory.createUnknown(frameSource);
+        return frameTypeUnknown.createFrame(frameSource);
+    }
+
+    private Frame createCommon(FrameSource frameSource) {
+        return frameTypeCommon.createFrame(frameSource);
     }
 
 }

@@ -1,5 +1,7 @@
 package pk.mp3.id3v2.parser;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -7,7 +9,7 @@ import java.util.Arrays;
 /**
  * Created by pskhizhnyakov on 08.12.2015.
  */
-public class DataParser230 implements DataParser {
+public class TextDataParser230 implements TextDataParser {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
     private static final Charset UNIDODE_BIG_ENDIAN = StandardCharsets.UTF_16BE;
     private static final Charset UNIDODE_LITTLE_ENDIAN = StandardCharsets.UTF_16LE;
@@ -110,6 +112,12 @@ public class DataParser230 implements DataParser {
             }
         }
         return data;
+    }
+
+    @Override
+    public CharBuffer getCharacters(byte[] data) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(getPureData(data));
+        return getCharset(data).decode(byteBuffer);
     }
 
 }

@@ -1,9 +1,8 @@
 package pk.mp3.id3v2.frame;
 
 import pk.mp3.id3v2.frame.frametype.FrameType;
-import pk.mp3.id3v2.frame.frametype.FrameTypeCommon;
-import pk.mp3.id3v2.parser.DataParser;
-import pk.mp3.id3v2.parser.DataParser230;
+import pk.mp3.id3v2.parser.TextDataParser;
+import pk.mp3.id3v2.parser.TextDataParser230;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by pskhizhnyakov on 09.12.2015.
  */
-public class CommonFrame implements Frame {
+public class FrameCommon implements Frame {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
 
     protected FrameSource frameSource;
@@ -19,17 +18,13 @@ public class CommonFrame implements Frame {
 
     private String identifier;
 
-    private DataParser dataParser = new DataParser230();
+    private TextDataParser textDataParser = new TextDataParser230();
 
-    public CommonFrame(FrameSource frameSource) {
-        this(frameSource, new FrameTypeCommon());
+    public FrameCommon(FrameType frameType, FrameSource frameSource) {
+        this(frameType, frameSource, null);
     }
 
-    public CommonFrame(FrameSource frameSource, FrameType frameType) {
-        this(frameSource, frameType, null);
-    }
-
-    public CommonFrame(FrameSource frameSource, FrameType frameType, String identifier) {
+    public FrameCommon(FrameType frameType, FrameSource frameSource, String identifier) {
         if (frameSource == null)
             throw new NullPointerException("FrameSource can not be NULL");
         if (frameType == null)
@@ -61,7 +56,7 @@ public class CommonFrame implements Frame {
 
     @Override
     public byte[] getPureData() {
-        return dataParser.getPureData(frameSource.getData());
+        return textDataParser.getPureData(frameSource.getData());
     }
 
     @Override
@@ -74,8 +69,8 @@ public class CommonFrame implements Frame {
         return iSize;
     }
 
-    @Override
-    public Charset getCharset() {
-        return dataParser.getCharset(frameSource.getData());
-    }
+//    @Override
+//    public Charset getCharset() {
+//        return dataParser.getCharset(frameSource.getData());
+//    }
 }
