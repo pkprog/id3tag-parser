@@ -113,71 +113,18 @@ public class FrameComm implements CommentsFrame {
         return identifier;
     }
 
-//    @Override
-//    public int getSize() {
-//        return getSizeInBytes();
-//    }
-
-    private int getSizeInBytes() {
-        int iSize = (int)(frameSource.getSize()[0] << 24 & 0xffffffff) | (int)(frameSource.getSize()[1] << 16 & 0xffffff) | (int)(frameSource.getSize()[2] << 8 & 0xffff) | (int)(frameSource.getSize()[3] & 0xff);
-        return iSize;
-    }
-
     @Override
     public byte[] getSourceData() {
         return frameSource.getData();
     }
 
-//    @Override
-//    public Charset getCharset() throws UseOfMethodNotApplicable {
-//        throw new UseOfMethodNotApplicable("This frame has many subframes");
-//    }
-
-//    public Charset getTextCharset() {
-//        return StandardCharsets.UTF_16BE;
-//    }
-
-//    public StringBuilder getText() {
-//        StringBuilder sbTemp = new StringBuilder();
-//        sbTemp.append(dataParser.getPureData(Arrays.copyOfRange(frameSource.getData(), 4, frameSource.getData().length)));
-//        return sbTemp;
-//    }
-
     @Override
     public String getLanguage() {
-//        return new String(Arrays.copyOfRange(frameSource.getData(), 1, 4));
         return language;
     }
 
     @Override
     public StringBuilder getShortContentDescrip() {
-//        TerminatingString terminatingString = textDataParser.getTerminatingString(frameSource.getData());
-//
-//        StringBuilder result = new StringBuilder();
-//
-//        if (TerminatingString.DEFAULT.equals(terminatingString)) {
-//            for (int i = 4; i < frameSource.getData().length; i+=1) {
-//                byte byte1 = frameSource.getData()[i];
-//                if (byte1 == 0x00) {
-//                    break;
-//                }
-//                String temp = new String(new byte[]{byte1}, getActualTextCharset());
-//                result.append(temp);
-//            }
-//        } else if (TerminatingString.UNICODE.equals(terminatingString)) {
-//            for (int i = 4; i < frameSource.getData().length; i+=2) {
-//                if (i < frameSource.getData().length && (i+1) < frameSource.getData().length) {
-//                    byte byte1 = frameSource.getData()[i], byte2 = frameSource.getData()[i + 1];
-//                    if (byte1 == 0x00 && byte2 == 0x00) {
-//                        break;
-//                    }
-//                    String temp = new String(new byte[]{byte1, byte2}, getActualTextCharset());
-//                    result.append(temp);
-//                }
-//            }
-//        }
-//
-//        return result;
         return shortContentDescription;
     }
 
@@ -201,5 +148,9 @@ public class FrameComm implements CommentsFrame {
         return frameSource;
     }
 
+    @Override
+    public byte[] getBytes() {
+        return frameSource.getData();
+    }
 
 }

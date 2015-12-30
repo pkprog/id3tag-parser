@@ -34,4 +34,15 @@ public class Id3v2Structure {
         return tempSize;
     }
 
+    public static byte[] getSize(int size) {
+        byte[] result = new byte[] {
+                (byte) (size >> 21),
+                (byte) (size >> 14),
+                (byte) (size >> 7),
+                (byte) size
+        };
+
+        return result;
+    }
+
 }

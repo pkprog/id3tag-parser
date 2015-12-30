@@ -1,22 +1,18 @@
 package pk.mp3.id3v2.load;
 
-import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.CommentsFrame;
-import pk.mp3.id3v2.frame.FrameUtils;
+import pk.mp3.id3v2.frame.Frame;
+import pk.mp3.id3v2.utils.FrameUtils;
 import pk.mp3.id3v2.frame.TextFrame;
 import pk.mp3.id3v2.frame.frametype.FrameTypeComm;
 import pk.mp3.id3v2.frame.frametype.FrameTypeTpe3;
 import pk.mp3.id3v2.frame.frametype.FrameTypeUnknown;
 import pk.mp3.id3v2.tag.Id3v2Structure;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
 /**
  * Created by pskhizhnyakov on 05.11.2015.
  */
 public class SemanticLogger {
-    private static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
 
     public static void log(Id3v2Structure structure) {
         if (structure == null) return;

@@ -3,7 +3,7 @@ package pk.mp3.id3v2.frame.frametype;
 import pk.mp3.id3v2.frame.Frame;
 import pk.mp3.id3v2.frame.FrameSource;
 import pk.mp3.id3v2.frame.FrameTpe3;
-import pk.mp3.id3v2.frame.FrameUtils;
+import pk.mp3.id3v2.utils.FrameUtils;
 
 /**
  * Created by pskhizhnyakov on 10.12.2015.

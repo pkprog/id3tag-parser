@@ -1,6 +1,7 @@
 package pk.mp3.id3v2.frame;
 
 import pk.mp3.id3v2.frame.frametype.FrameType;
+import pk.mp3.id3v2.utils.FrameUtils;
 import pk.mp3.id3v2.version.Version;
 import pk.mp3.id3v2.version.VersionedUtilsFactory;
 

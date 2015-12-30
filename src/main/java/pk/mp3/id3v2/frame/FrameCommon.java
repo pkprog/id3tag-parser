@@ -3,6 +3,7 @@ package pk.mp3.id3v2.frame;
 import pk.mp3.id3v2.frame.frametype.FrameType;
 import pk.mp3.id3v2.parser.TextDataParser;
 import pk.mp3.id3v2.parser.TextDataParser230;
+import pk.mp3.id3v2.utils.FrameUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -74,5 +75,10 @@ public class FrameCommon implements Frame {
     @Override
     public FrameSource getFrameSource() {
         return frameSource;
+    }
+
+    @Override
+    public byte[] getBytes() {
+        return frameSource.getData();
     }
 }

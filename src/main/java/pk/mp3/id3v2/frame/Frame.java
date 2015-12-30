@@ -12,4 +12,5 @@ public interface Frame {
     byte[] getSourceData();
     FrameSource getFrameSource();
 //    Charset getCharset() throws UseOfMethodNotApplicable;
+    byte[] getBytes();
 }

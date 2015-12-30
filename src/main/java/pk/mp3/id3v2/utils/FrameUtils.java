@@ -1,4 +1,6 @@
-package pk.mp3.id3v2.frame;
+package pk.mp3.id3v2.utils;
+
+import pk.mp3.id3v2.frame.TextFrame;
 
 /**
  * Created by pskhizhnyakov on 23.12.2015.

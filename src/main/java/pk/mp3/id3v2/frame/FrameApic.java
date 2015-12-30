@@ -20,9 +20,9 @@ public class FrameApic extends FrameCommon implements Frame, PictureFrame {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder(getIdentifier());
         if (this.getSourceData().length > 0) {
-            stringBuilder.append("Picture is present");
+            stringBuilder.append(" Picture is present");
         } else {
-            stringBuilder.append("Picture is not present");
+            stringBuilder.append(" Picture is not present");
         }
         return stringBuilder.toString();
     }

@@ -60,38 +60,6 @@ public class TextDataParser230 implements TextDataParser {
 
             return DEFAULT_CHARSET;
         }
-/*
-        if (data != null && data.length >= 3) {
-            byte byte1 = data[0], byte2 = data[1], byte3 = data[2];
-
-            if (getDifferentEncodingFlag(data).equals(DifferentEncodingFlag.ISO_8859_1)) {
-                if ((byte2 & 0xff) >= 0x20 && (byte2 & 0xff) <= 0xff || (byte2 & 0xff) == DEFAULT_NEW_LINE) {
-                    return DEFAULT_CHARSET;
-                }
-            } else if (getDifferentEncodingFlag(data).equals(DifferentEncodingFlag.UNICODE)) {
-                if ((byte2 & 0xff) == 0xfe && (byte3 & 0xff) == 0xff) { //UNICODE big endian
-                    return UNIDODE_BIG_ENDIAN;
-                }
-
-                if ((byte2 & 0xff) == 0xff && (byte3 & 0xff) == 0xfe) { //UNICODE little endian
-                    return UNIDODE_LITTLE_ENDIAN;
-                }
-            } else {
-                if ((byte1 & 0xff) == 0xff && (byte2 & 0xff) == 0xfe) { //UNICODE big endian
-                    return UNIDODE_BIG_ENDIAN;
-                }
-
-                if ((byte1 & 0xff) == 0xfe && (byte2 & 0xff) == 0xff) { //UNICODE little endian
-                    return UNIDODE_LITTLE_ENDIAN;
-                }
-
-                if ((byte1 & 0xff) >= 0x20 && (byte1 & 0xff) <= 0xff || (byte1 & 0xff) == DEFAULT_NEW_LINE || (byte1 & 0xff) == 0x00) {
-                    return DEFAULT_CHARSET;
-                }
-            }
-        }
-*/
-//        return DEFAULT_CHARSET;
     }
 
     public DifferentEncodingFlag getDifferentEncodingFlag(byte[] data) {
@@ -119,23 +87,6 @@ public class TextDataParser230 implements TextDataParser {
         if (charset.equals(DEFAULT_CHARSET)) {
             return TerminatingString.DEFAULT;
         }
-/*
-        if (data != null && data.length >= 2) {
-            byte byte1 = data[0], byte2 = data[1];
-
-            if ((byte1 & 0xff) == 0xff && (byte2 & 0xff) == 0xfe) { //UNICODE big endian
-                return TerminatingString.UNICODE;
-            }
-
-            if ((byte1 & 0xff) == 0xfe && (byte2 & 0xff) == 0xff) { //UNICODE little endian
-                return TerminatingString.UNICODE;
-            }
-
-            if ((byte1 & 0xff) >= 0x20 && (byte1 & 0xff) <= 0xff || (byte1 & 0xff) == DEFAULT_NEW_LINE || (byte1 & 0xff) == 0x00) {
-                return TerminatingString.DEFAULT;
-            }
-        }
-*/
 
         return TerminatingString.DEFAULT;
     }

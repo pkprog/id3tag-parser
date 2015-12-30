@@ -2,7 +2,7 @@ package pk.mp3.id3v2.load;
 
 import pk.mp3.id3v2.exception.IdentifierNotDeclaredException;
 import pk.mp3.id3v2.frame.Frame;
-import pk.mp3.id3v2.frame.FrameUtils;
+import pk.mp3.id3v2.utils.FrameUtils;
 import pk.mp3.id3v2.frame.frameselect.FrameSelector;
 import pk.mp3.id3v2.frame.frameselect.FrameSelector230;
 import pk.mp3.id3v2.frame.FrameSource;
